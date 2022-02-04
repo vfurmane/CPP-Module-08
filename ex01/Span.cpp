@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 11:49:36 by vfurmane          #+#    #+#             */
-/*   Updated: 2022/02/02 10:05:59 by vfurmane         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:38:03 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
 
-Span::Span(void) : _list()
+Span::Span(void) : _index(0), _max_index(0), _list()
 {
 }
 
@@ -20,12 +20,12 @@ Span::~Span(void)
 {
 }
 
-Span::Span(const Span &obj) : _list()
+Span::Span(const Span &obj) : _index(0), _max_index(0), _list()
 {
 	*this = obj;
 }
 
-Span::Span(unsigned int N) : _list()
+Span::Span(unsigned int N) : _index(0), _max_index(N), _list()
 {
 	(void)N; /* ===== DELETE ===== */
 }
@@ -38,9 +38,10 @@ Span	&Span::operator=(const Span &rhs)
 
 void	Span::addNumber(int nbr)
 {
-	if (_list.size() == _list.max_size())
+	if (_index >= _max_index)
 		throw Span::Overflow();
 	_list.push_back(nbr);
+	_index++;
 }
 
 int	Span::shortestSpan(void) const
@@ -75,4 +76,10 @@ int	Span::longestSpan(void) const
 
 	copy.sort();
 	return (copy.back() - copy.front());
+}
+
+void	Span::fill(std::list<int>::const_iterator begin, std::list<int>::const_iterator end)
+{
+	for (std::list<int>::const_iterator it = begin; it != end; ++it)
+		this->addNumber(*it);
 }

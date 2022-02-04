@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 11:49:33 by vfurmane          #+#    #+#             */
-/*   Updated: 2022/02/02 10:16:32 by vfurmane         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:36:25 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,7 @@ class Span
 		void	addNumber(int nbr);
 		int		shortestSpan(void) const;
 		int		longestSpan(void) const;
-		void	fill(std::list<int>::const_iterator begin, std::list<int>::const_iterator end)
-		{
-			for (std::list<int>::const_iterator it = begin; it != end; ++it)
-				this->addNumber(*it);
-		}
+		void	fill(std::list<int>::const_iterator begin, std::list<int>::const_iterator end);
 
 		class Overflow : public std::exception
 		{
@@ -52,7 +48,9 @@ class Span
 		};
 
 	private:
-		std::list<int>	_list;
+		unsigned int		_index;
+		const unsigned int	_max_index;
+		std::list<int>		_list;
 };
 
 #endif

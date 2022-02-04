@@ -6,7 +6,7 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 08:58:07 by vfurmane          #+#    #+#             */
-/*   Updated: 2022/02/02 10:22:29 by vfurmane         ###   ########.fr       */
+/*   Updated: 2022/02/04 11:38:39 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,26 @@ int	main(void)
 	std::cout << "==========" << std::endl;
 	{
 		Span sp = Span(5);
+		try {
+			sp.shortestSpan();
+		} catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+		}
 		sp.addNumber(5);
+		try {
+			sp.longestSpan();
+		} catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+		}
 		sp.addNumber(3);
 		sp.addNumber(17);
 		sp.addNumber(9);
 		sp.addNumber(11);
+		try {
+			sp.addNumber(21);
+		} catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+		}
 		std::cout << sp.shortestSpan() << std::endl;
 		std::cout << sp.longestSpan() << std::endl;
 	}
