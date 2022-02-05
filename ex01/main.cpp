@@ -6,51 +6,45 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 08:58:07 by vfurmane          #+#    #+#             */
-/*   Updated: 2022/02/04 11:38:39 by vfurmane         ###   ########.fr       */
+/*   Updated: 2022/02/05 11:52:28 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
+#include <algorithm>
+#include <iterator>
 #include "Span.hpp"
 
 #define MAX_SPAN_SIZE 10000
 
-std::list<int>	*generateRandomList(unsigned int N)
+int	rand_max_size(void)
 {
-	std::list<int>	*list = new std::list<int>;
-
-	srand(time(NULL));
-	for (unsigned int i = 0; i < N; i++)
-		list->push_back(rand() % N);
-	return list;
+	return (std::rand() % MAX_SPAN_SIZE);
 }
 
 int	main(void)
 {
+	srand(time(NULL));
 	{
-		std::list<int>	*list = generateRandomList(10);
-		std::list<int>::const_iterator	begin = list->begin();
-		std::list<int>::const_iterator	end = list->end();
-		std::list<int>::const_iterator	it;
-		for (it = begin; it != end; ++it)
-			std::cout << *it << std::endl;
-		std::cout << "==========" << std::endl;
+		std::list<int>	list(10, 0);
+		std::generate(list.begin(), list.end(), rand_max_size);
+		std::cout << "The list is:" << std::endl;
+		std::copy(list.begin(), list.end(), std::ostream_iterator<int>(std::cout, "\n"));
 		Span	sp(10);
-		sp.fill(list->begin(), list->end());
-		std::cout << sp.shortestSpan() << std::endl;
-		std::cout << sp.longestSpan() << std::endl;
-		delete list;
+		sp.fill(list.begin(), list.end());
+		std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
+		std::cout << "Longest span: " << sp.longestSpan() << std::endl;
 	}
 	std::cout << "==========" << std::endl;
 	{
-		std::list<int>	*list = generateRandomList(MAX_SPAN_SIZE);
+		std::list<int>	list(MAX_SPAN_SIZE, 0);
+		std::generate(list.begin(), list.end(), rand_max_size);
 		Span	sp(MAX_SPAN_SIZE);
-		sp.fill(list->begin(), list->end());
-		std::cout << sp.shortestSpan() << std::endl;
-		std::cout << sp.longestSpan() << std::endl;
-		delete list;
+		sp.fill(list.begin(), list.end());
+		std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
+		std::cout << "Longest span: " << sp.longestSpan() << std::endl;
 	}
 	std::cout << "==========" << std::endl;
 	{
@@ -75,8 +69,8 @@ int	main(void)
 		} catch (std::exception &e) {
 			std::cerr << e.what() << std::endl;
 		}
-		std::cout << sp.shortestSpan() << std::endl;
-		std::cout << sp.longestSpan() << std::endl;
+		std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
+		std::cout << "Longest span: " << sp.longestSpan() << std::endl;
 	}
 	return 0;
 }

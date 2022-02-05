@@ -6,13 +6,13 @@
 /*   By: vfurmane <vfurmane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 11:49:36 by vfurmane          #+#    #+#             */
-/*   Updated: 2022/02/04 11:38:03 by vfurmane         ###   ########.fr       */
+/*   Updated: 2022/02/05 11:32:51 by vfurmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
 
-Span::Span(void) : _index(0), _max_index(0), _list()
+Span::Span(void) : _N(0), _list()
 {
 }
 
@@ -20,14 +20,13 @@ Span::~Span(void)
 {
 }
 
-Span::Span(const Span &obj) : _index(0), _max_index(0), _list()
+Span::Span(const Span &obj) : _N(0), _list()
 {
 	*this = obj;
 }
 
-Span::Span(unsigned int N) : _index(0), _max_index(N), _list()
+Span::Span(unsigned int N) : _N(N), _list()
 {
-	(void)N; /* ===== DELETE ===== */
 }
 
 Span	&Span::operator=(const Span &rhs)
@@ -38,10 +37,9 @@ Span	&Span::operator=(const Span &rhs)
 
 void	Span::addNumber(int nbr)
 {
-	if (_index >= _max_index)
+	if (_list.size() >= _N)
 		throw Span::Overflow();
 	_list.push_back(nbr);
-	_index++;
 }
 
 int	Span::shortestSpan(void) const
@@ -82,4 +80,14 @@ void	Span::fill(std::list<int>::const_iterator begin, std::list<int>::const_iter
 {
 	for (std::list<int>::const_iterator it = begin; it != end; ++it)
 		this->addNumber(*it);
+}
+
+const char *Span::Overflow::what(void) const throw()
+{
+	return "The span contains the maximum amount of numbers.";
+}
+
+const char *Span::TooSmall::what(void) const throw()
+{
+	return "The span needs to contain at least 2 elements";
 }
